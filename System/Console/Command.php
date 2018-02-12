@@ -43,7 +43,7 @@ class Command {
     }
 
     public function serve() {
-        system("php -S localhost:8000");
+        system("php -S localhost:8000 -t public/");
     }
 
     public function newController($name) {
