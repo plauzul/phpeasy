@@ -1,0 +1,20 @@
+<?php
+
+require_once "vendor/autoload.php";
+
+$command = new \System\Console\Command();
+
+array_shift($argv);
+$argc = $argc - 1;
+
+foreach ($command->commands as $key => $value) {
+    if($argc > 1) {
+        if($argv[0] == $key && isset($value[$argv[1]])) {
+            $command->{$value[$argv[1]]}($argv[2] ?? null);
+        }
+    } else {
+        if($argv[0] == $key && !is_array($value)) {
+            $command->{$value}();
+        }
+    }
+}
