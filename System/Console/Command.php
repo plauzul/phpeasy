@@ -18,6 +18,7 @@ class Command {
         $this->commands = [
             //Comados unicos
             'help' => 'help',
+            'serve' => 'serve',
 
             //Comandos com argumentos e parametros
             'new' => [
@@ -39,6 +40,10 @@ class Command {
         foreach ($this->commands as $key => $value) {
             echo "  -" . $key . "\n";
         }
+    }
+
+    public function serve() {
+        system("php -S localhost:8000");
     }
 
     public function newController($name) {
