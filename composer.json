@@ -1,0 +1,26 @@
+{
+	"name": "PHPEasy",
+	"description": "Framework php simples, leve e ágil",
+	"version": "1.0.0",
+	"license": "MIT",
+	"require": {
+		"php": ">=7.1"
+	},
+	"minimum-stability": "alpha",
+	"authors": [
+		{
+			"name": "Paulo Henrique",
+			"email": "henriq10@outlook.com",
+			"role": "developer",
+			"homepage": "https://github.com/plauzul"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"App\\": "app/",
+			"System\\":"System/",
+			"Routes\\": "routes/",
+			"Hooks\\": "hook/"
+		}
+	}
+}

@@ -1,0 +1,36 @@
+html, body {
+	height: 100%;
+	min-height: 100%;
+	background-color: aliceblue;
+}
+
+.container {
+	flex-direction: column;
+}
+
+.row {
+	flex-direction: row;
+}
+
+.wrapper {
+	height: 100%;
+	min-height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+  
+.wrapper .block {
+	width: 55%;
+	height: 25%;
+	background-color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 10px;
+	box-shadow: 1px 1px 5px black;
+}
+
+.wrapper .block p {
+	font-size: 30px;
+}
