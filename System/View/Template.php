@@ -4,6 +4,7 @@ namespace System\View;
 
 /**
  * Prove a utilização dos template
+ * 
  * Metodos que retorne views com template se utiliza dessa clase, provendo tags para diminuição do codigo php
  *
  * @author Paulo Henrique Ramos Ferreira

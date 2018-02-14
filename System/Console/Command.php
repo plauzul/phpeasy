@@ -12,13 +12,22 @@ use System\Database\Migrations;
  */
 class Command {
 
+    /**
+     * Variavel que contém todos os possiveis comandos
+     *
+     * @var array
+     */
     public $commands;
 
+    /**
+     * Adiciona os possiveis comandos para $commands
+     * 
+     * @return void
+     */
     public function __construct() {
         $this->commands = [
             //Comados unicos
             'help' => 'help',
-            'serve' => 'serve',
 
             //Comandos com argumentos e parametros
             'new' => [
@@ -35,6 +44,11 @@ class Command {
         ];
     }
 
+    /**
+     * Lista todos os comandos de $commands na tela
+     * 
+     * @return string
+     */
     public function help() {
         echo "\ntodos os possiveis comandos\n\n";
         foreach ($this->commands as $key => $value) {
@@ -42,10 +56,12 @@ class Command {
         }
     }
 
-    public function serve() {
-        system("php -S localhost:8000 -t public/");
-    }
-
+    /**
+     * Cria um novo controller em app/Controllers
+     *
+     * @param string $name
+     * @return string
+     */
     public function newController($name) {
         if (!$name) {
             echo "Cria um novo controller";
@@ -63,6 +79,12 @@ class Command {
         echo "Controller criado com sucesso!";
     }
 
+    /**
+     * Cria um novo model em app/Models
+     *
+     * @param string $name
+     * @return string
+     */
     public function newModel($name) {
         if (!$name) {
             echo "Cria uma nova model";
@@ -80,6 +102,12 @@ class Command {
         echo "Model criada com sucesso!";
     }
 
+    /**
+     * Cria uma nova view e seus arquivos .js e .css em app/Views
+     *
+     * @param string $name
+     * @return string
+     */
     public function newView($name) {
         if(!$name) {
             echo "Cria uma nova view";
@@ -100,6 +128,12 @@ class Command {
         echo "Arquivos da view criados com sucesso!";
     }
 
+    /**
+     * Cria uma nova migration [necessita terminar]
+     *
+     * @param string $name
+     * @return string
+     */
     public function newMigration($name) {
         if(!$name) {
             echo "Cria uma nova migration";
@@ -137,6 +171,11 @@ class Command {
         }
     }
 
+    /**
+     * Apaga os arquivos de cache da pasta cache/
+     *
+     * @return void
+     */
     public function clean() {
         echo "Tem certeza de apagar todos os cache? [S/N] ";
         $value = substr(trim(fgets(STDIN)), 0, 1);
