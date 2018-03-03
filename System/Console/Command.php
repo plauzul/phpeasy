@@ -3,7 +3,6 @@
 namespace System\Console;
 
 use System\Helpers\Functions;
-use System\Database\Migrations;
 
 /**
  * Providencia comandos para o phpeasy-cli
@@ -183,17 +182,17 @@ class Command {
         switch ($value) {            
             case "s":
             case "S":
-                $directory = dir(Functions::base_dir()."/cache/views");
-                $i = 0;
-                while ($arquivo = $directory->read()) {
-                    $i++;
-                    if($i > 2) {
-                        unlink(Functions::base_dir()."/cache/views/".$arquivo);
+                $files = scandir(Functions::base_dir()."/cache/views");
+                $total = count($files) - 2;
+                foreach ($files as $file) {
+                    if($file != "." && $file != "..") {
+                        echo "Excluindo: $file\n";
+                        unlink(Functions::base_dir()."/cache/views/".$file);
                     }
                 }
-                $directory->close();
+                echo "Excluido um total de $total arquivos\n";
                 break;
-            
+
             default:
                 break;
         }

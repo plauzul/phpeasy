@@ -17,11 +17,15 @@ class Functions {
      * @return void
      */
     public static function base_dir() {
-        $pathExplode = explode("\\", __DIR__);
-        
-        array_splice($pathExplode, - 2);
-        
-        return $fullPath = str_replace("\\", "/", implode("\\", $pathExplode));
+        if(PHP_OS == "Linux") {
+            $pathExplode = explode("/", __DIR__);
+            array_splice($pathExplode, - 2);
+            return implode("/", $pathExplode);
+        } else {
+            $pathExplode = explode("\\", __DIR__);        
+            array_splice($pathExplode, - 2);            
+            return str_replace("\\", "/", implode("\\", $pathExplode));
+        }
     }
 
     /**
@@ -31,7 +35,7 @@ class Functions {
      * @return string
      */
     public static function insertCss($path) {
-        $pathFile = Functions::base_dir() . "/App/Views/" . $path;
+        $pathFile = Functions::base_dir()."/app/Views/".$path;
         
         $file = file_get_contents($pathFile);
         
@@ -45,7 +49,7 @@ class Functions {
      * @return string
      */
     public static function insertJs($path) {
-        $pathFile = Functions::base_dir()."/App/Views/".$path;
+        $pathFile = Functions::base_dir()."/app/Views/".$path;
         
         $file = file_get_contents($pathFile);
         

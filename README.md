@@ -9,12 +9,12 @@ PHP 7.x.x
 
 ## Instalação
 ```
-composer install phpeasy --save
+git clone https://github.com/plauzul/phpeasy.git
 ```
 
-## Running
+## Executando
 
-no `cmd` execute `composer install` para instalar as dependencias do framework
+no `bash` execute `composer install` para instalar as dependencias do framework
 
 ## Outros
 

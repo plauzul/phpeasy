@@ -60,14 +60,4 @@ class Request {
             $this->params->$key = filter_input(INPUT_POST, $key, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         }
     }
-
-    /**
-     * Redireciona a pagina atual para determinada outra
-     *
-     * @param string $path url da outra pagina
-     * @return void
-     */
-    public function redirectTo($path) {
-        header("location:$path");
-    }
 }
