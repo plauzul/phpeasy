@@ -47,6 +47,11 @@ class Routes {
             if ($url == $route['route']) {
                 foreach ($route['method'] as $method) {
                     if (strtoupper($method) == $_SERVER['REQUEST_METHOD']) {
+                        if(isset($route['middleware'])) {
+                            $class = "App\\Middleware\\".ucfirst($route['middleware']);
+                            $middleware = new $class();
+                            $middleware->run();
+                        }
                         $class = "App\\Controllers\\".ucfirst($route['controller']);
                         $controller = new $class();
                         $controller->{$route['action']}();

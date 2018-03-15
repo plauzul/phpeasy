@@ -33,7 +33,8 @@ class Command {
                 'controller' => 'newController',
                 'model' => 'newModel',
                 'view' => 'newView',
-                'migration' => 'newMigration'
+                'migration' => 'newMigration',
+                'middleware' => 'newMiddleware'
             ],
 
             //Comandos somente com argumentos
@@ -62,14 +63,14 @@ class Command {
      * @return string
      */
     public function newController($name) {
-        if (!$name) {
+        if(!$name) {
             echo "Cria um novo controller";
             exit();
         }
         
         $controller = "<?php\n\nnamespace App\Controllers;\n\nuse System\Controllers\Controller;\n\nclass ".ucfirst(strtolower($name))."Controller extends Controller {\n}";
         
-        if (file_exists(Functions::base_dir()."/app/Controllers/".ucfirst(strtolower($name))."Controller.php")) {
+        if(file_exists(Functions::base_dir()."/app/Controllers/".ucfirst(strtolower($name))."Controller.php")) {
             echo "Controller já existe!";
             exit();
         }
@@ -85,14 +86,14 @@ class Command {
      * @return string
      */
     public function newModel($name) {
-        if (!$name) {
+        if(!$name) {
             echo "Cria uma nova model";
             exit();
         }
         
         $model = "<?php\n\nnamespace App\Models;\n\nuse System\Database\Model;\n\nclass ".ucfirst(strtolower($name))." extends Model {\n}";
         
-        if (file_exists(Functions::base_dir()."/app/Models/".ucfirst(strtolower($name)).".php")) {
+        if(file_exists(Functions::base_dir()."/app/Models/".ucfirst(strtolower($name)).".php")) {
             echo "Model já existe!";
             exit();
         }
@@ -168,6 +169,29 @@ class Command {
                 echo "Escolha uma das opções validas 'd' ou 't'";
                 break;
         }
+    }
+
+    /**
+     * Cria um novo middleware
+     * 
+     * @param string $name
+     * @return string
+     */
+    public function newMiddleware($name) {
+        if(!$name) {
+            echo "Cria um novo middleware";
+            exit();
+        }
+
+        $middleware = "<?php\n\nnamespace App\Middleware;\n\nclass ".ucfirst(strtolower($name))."middleware {\n}";
+
+        if(file_exists(Functions::base_dir()."/app/Middleware/".ucfirst(strtolower($name))."Middleware.php")) {
+            echo "Middleware já existe!";
+            exit();
+        }
+
+        file_put_contents(Functions::base_dir()."/app/Middleware/".ucfirst(strtolower($name))."Middleware.php", $middleware);
+        echo "Middleware criado com sucesso!";
     }
 
     /**
