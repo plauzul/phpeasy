@@ -29,6 +29,17 @@ class Functions {
     }
 
     /**
+     * Retorna a url base do site declarada em config/app.php
+     *
+     * @return void
+     */
+    public static function base_url() {
+        $app = require(Functions::base_dir()."/config/app.php");
+
+        return $app['url'];
+    }
+
+    /**
      * Insere o css na pagina
      *
      * @param string $path caminho de onde se encontra o .css a partir de Views/

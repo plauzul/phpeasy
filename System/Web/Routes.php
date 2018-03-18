@@ -2,6 +2,8 @@
 
 namespace System\Web;
 
+use System\Helpers\Functions;
+
 /**
  * Inicia o roteamento da aplicação
  * 
@@ -17,6 +19,13 @@ class Routes {
      * @var string
      */
     private $routes;
+
+    /**
+     * Verefica se alguma url não foi encontrada
+     * 
+     * @var boolean
+     */
+    private $hasUrlNotFound;
 
     /**
      * Adiciono os valores em $routes e chamo run() passando o getUrl()
@@ -45,6 +54,7 @@ class Routes {
     protected function run($url) {
         foreach ($this->routes as $route) {
             if ($url == $route['route']) {
+                $this->hasUrlNotFound = true;
                 foreach ($route['method'] as $method) {
                     if (strtoupper($method) == $_SERVER['REQUEST_METHOD']) {
                         if(isset($route['middleware'])) {
@@ -59,6 +69,20 @@ class Routes {
                 }
             }
         }
+
+        if(!$this->hasUrlNotFound) {
+            $this->urlNotFound();
+        }
+    }
+
+    /**
+     * Executado caso não encontre nenhuma url atual que bata  com alguma cadastrada em routes/web.php
+     *
+     * @return void
+     */
+    protected function urlNotFound() {
+        http_response_code(404);
+        echo json_encode(['status' => 'url_not_found']);
     }
 
     /**
@@ -67,6 +91,10 @@ class Routes {
      * @return array
      */
     protected function getUrl() {
-        return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $app = require(Functions::base_dir()."/config/app.php");
+        $url = 'http'.(empty($_SERVER['HTTPS'])?'':'s').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        $newUrl = str_replace($app['url'], "", $url);
+
+        return parse_url($newUrl, PHP_URL_PATH);
     }
 }
