@@ -12,52 +12,32 @@ namespace System\Controllers;
 class Request {
 
     /**
-     * Variavel que contem os respectivos chave e valor da url
+     * Variavel que contem os respectivos chave e valor da request
      *
      * @var object
      */
     public $params;
 
     /**
-     * Chama determinado metodo a partir do REQUEST_METHOD
+     * Chama metodo para passar valores para o objeto params
      * 
      * @return void
      */
     public function __construct() {
         $this->params = new \stdClass();
-        switch ($_SERVER['REQUEST_METHOD']) {
-            case 'GET':
-                $this->getParamsGET();
-                break;
-            case 'POST':
-                $this->getParamsPOST();
-                break;
-        }
+        $this->getParams();
     }
 
     /**
-     * Obtêm os parâmetros da url se caso esteja no verbo GET
+     * Obtêm os paâmetros da requisição
      *
      * @return void
      */
-    private function getParamsGET() {
-        if(isset(explode("?", $_SERVER['REQUEST_URI'])[1])) {
-            $queryString = explode("?", $_SERVER['REQUEST_URI'])[1];
-            $values = explode("&", $queryString);
-            foreach ($values as $key => $value) {
-                $this->params->{explode("=", $value)[0]} = filter_var(explode("=", $value)[1], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    private function getParams() {
+        if(!empty($_REQUEST)) {
+            foreach($_REQUEST as $key => $value) {
+                $this->params->$key = $value;
             }
-        }
-    }
-
-    /**
-     * Obtêm os paâmetros da url se caso esteja no verbo POST
-     *
-     * @return void
-     */
-    private function getParamsPOST() {
-        foreach ($_POST as $key => $value) {
-            $this->params->$key = filter_input(INPUT_POST, $key, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         }
     }
 }
