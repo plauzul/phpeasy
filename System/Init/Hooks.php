@@ -17,7 +17,7 @@ class Hooks {
    * @return void
    */
   public function __construct() {
-    $hooks = require("../config/hooks.php");;
+    $hooks = require("../config/hooks.php");
 
     foreach ($hooks as $value) {
       $class = "Hooks\\".$value;
