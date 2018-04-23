@@ -67,15 +67,15 @@ class Template {
 
             //tags for
             "@for" => "<?php for",
-            "@endfor" => "<?php endfor; ?>",
+            "@#forend" => "<?php endfor; ?>",
 
             //tags foreach
             "@foreach" => "<?php foreach",
-            "@endforeach" => "<?php endforeach; ?>",
+            "@#foreachend" => "<?php endforeach; ?>",
 
             //tags while
             "@while" => "<?php while",
-            "@endforeach" => "<?php endwhile; ?>",
+            "@#whileend" => "<?php endwhile; ?>",
         ];
         $this->createFiles();
     }

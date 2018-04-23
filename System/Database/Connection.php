@@ -18,21 +18,28 @@ class Connection {
      *
      * @var \PDO
      */
-    protected $db;
+    protected static $instance;
 
     /**
-     * Inicia a conexão com o BD a partir do arquivo de configuração em config/database.php
+     * Impede a criação de uma instancia dessa classe
+     */
+    private function __construct() {}
+
+    /**
+     * Retorna a conexão com o BD a partir do arquivo de configuração em config/database.php
      * 
      * @return void
      */
-    public function __construct() {
-        $config = require(Functions::base_dir()."/config/database.php");
-        try {
-            $db = new \PDO($config["drive"] . ":host=" . $config["host"] . ";dbname=" . $config["dbname"], $config["user"], $config["password"]);
-            $this->db = $db;
-            $this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        } catch (\PDOException $e) {
-            echo 'ERROR: ' . $e->getMessage();
+    public static function getInstance() {
+        if (!isset(self::$instance)) {
+            $config = require(Functions::base_dir()."/config/database.php");
+            try {
+                self::$instance = new \PDO($config["drive"] . ":host=" . $config["host"] . ";dbname=" . $config["dbname"], $config["user"], $config["password"]);
+                self::$instance->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            } catch (\PDOException $e) {
+                echo 'ERROR: ' . $e->getMessage();
+            }
         }
+        return self::$instance;
     }
 }

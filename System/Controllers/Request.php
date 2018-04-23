@@ -29,7 +29,7 @@ class Request {
     }
 
     /**
-     * Obtêm os paâmetros da requisição
+     * Obtêm os parâmetros da requisição
      *
      * @return void
      */

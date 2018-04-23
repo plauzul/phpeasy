@@ -6,7 +6,7 @@
 	"require": {
 		"php": ">=7.0"
 	},
-	"minimum-stability": "alpha",
+	"minimum-stability": "stable",
 	"authors": [
 		{
 			"name": "Paulo Henrique",
