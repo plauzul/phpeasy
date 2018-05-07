@@ -9,7 +9,8 @@ namespace System\Database;
  *
  * @author Paulo Henrique Ramos Ferreira
  */
-class Model {
+abstract class Model {
+    use Serializable;
 
     /**
      * Tabela atual da instancia que ira se trabalhar
@@ -31,6 +32,13 @@ class Model {
      * @var PDOStatement
      */
     private $stmt;
+
+    /**
+     * Variavel que conterá os resultados de getAll
+     *
+     * @var array
+     */
+    public $elements;
 
     /**
      * Inicia o construtor da classe pai
@@ -125,10 +133,11 @@ class Model {
     /**
      * Retorna um unico conjunto de dados de uma busca
      *
-     * @return array
+     * @return object
      */
     public function get() {
-        return $this->stmt->fetch(\PDO::FETCH_ASSOC);
+        $this->stmt->setFetchMode(\PDO::FETCH_CLASS, get_class($this));
+        return $this->stmt->fetch();
     }
 
     /**
@@ -137,7 +146,9 @@ class Model {
      * @return array
      */
     public function getAll() {
-        return $this->stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $this->stmt->setFetchMode(\PDO::FETCH_CLASS, get_class($this));
+        $this->elements = $this->stmt->fetchAll();
+        return $this;
     }
 
     /**
@@ -146,7 +157,7 @@ class Model {
      * @return int
      */
     public function count() {
-        return $this->stmt->fetch(\PDO::FETCH_NUM);
+        return $this->stmt->fetch(\PDO::FETCH_NUM)[0] ?? 0;
     }
 
     /**
