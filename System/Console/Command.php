@@ -3,6 +3,7 @@
 namespace System\Console;
 
 use System\Helpers\Functions;
+use System\Database\Connection;
 
 /**
  * Providencia comandos para o phpeasy-cli
@@ -40,6 +41,9 @@ class Command {
             //Comandos somente com argumentos
             'cache' => [
                 'clean' => 'clean'
+            ],
+            'run' => [
+                'migrations' => 'runMigration'
             ]
         ];
     }
@@ -129,7 +133,7 @@ class Command {
     }
 
     /**
-     * Cria uma nova migration [necessita terminar]
+     * Cria uma nova migration
      *
      * @param string $name
      * @return string
@@ -140,35 +144,15 @@ class Command {
             exit();
         }
 
-        echo "Escolha o tipo de migration database(d) ou table(t): ";
+        $file = Functions::base_dir()."/migrations/".date("Y_m_d_H_i_s")."_".str_replace("_", "", strtolower($name)).".sql";
 
-        $type = substr(trim(fgets(STDIN)), 0, 1);
-
-        switch ($type) {
-            case 'D':
-            case 'd':
-                if(file_exists(Functions::base_dir()."/migrations/create_database_".strtolower($name).".sql")) {
-                    echo "Migration para database já criada!";
-                    exit();
-                }
-                file_put_contents(Functions::base_dir()."/migrations/create_database_".strtolower($name).".sql", "#dados referentes a criação do banco de dados");
-                echo "Migration criada com sucesso";
-                break;
-
-            case 'T':
-            case 't':
-                if(file_exists(Functions::base_dir()."/migrations/create_table_".strtolower($name).".sql")) {
-                    echo "Migration para tabela já criada!";
-                    exit();
-                }
-                file_put_contents(Functions::base_dir()."/migrations/create_table_".strtolower($name).".sql", "#dados referentes a criação da tabela");
-                echo "Migration criada com sucesso";
-                break;
-            
-            default:
-                echo "Escolha uma das opções validas 'd' ou 't'";
-                break;
+        if(file_exists($file)) {
+            echo "Migration já criada!";
+            exit();
         }
+
+        file_put_contents($file, "");
+        echo "Migration criada com sucesso!";
     }
 
     /**
@@ -209,7 +193,7 @@ class Command {
                 $files = scandir(Functions::base_dir()."/cache/views");
                 $total = count($files) - 2;
                 foreach ($files as $file) {
-                    if($file != "." && $file != "..") {
+                    if($file[0] != ".") {
                         echo "Excluindo: $file\n";
                         unlink(Functions::base_dir()."/cache/views/".$file);
                     }
@@ -219,6 +203,29 @@ class Command {
 
             default:
                 break;
+        }
+    }
+
+    /**
+     * Executa todas as migrations criada
+     *
+     * @param string $name
+     * @return string
+     */
+    public function runMigration() {
+        $dir = Functions::base_dir()."/migrations";
+
+        $files = scandir($dir);
+
+        sort($files);
+
+        $db = Connection::getInstance();
+
+        foreach($files as $file) {
+            if($file[0] != ".") {
+                $stmt = $db->prepare(file_get_contents($dir."/".$file));
+                $stmt->execute();
+            }
         }
     }
 }

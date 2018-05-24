@@ -65,6 +65,12 @@ class Template {
             "}}}" => "?>",
             "@continue" => ": ?>",
 
+            //tags if
+            "@if" => "<?php if",
+            "@else" => "<?php else: ?>",
+            "@elseif" => "<?php elseif",
+            "@#ifend" => "<?php endif; ?>",
+
             //tags for
             "@for" => "<?php for",
             "@#forend" => "<?php endfor; ?>",

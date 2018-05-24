@@ -11,7 +11,7 @@ use System\Helpers\Functions;
  *
  * @author Paulo Henrique Ramos Ferreira
  */
-class Connection {
+abstract class Connection {
 
     /**
      * Variavel que contém a instacia de PDO
